@@ -18,3 +18,14 @@ resource "aws_eip_association" "associate"{
 
 }
 
+resource "aws_security_group" "sg" {
+  tags = {
+    Name = "test-sg"
+    type = "terraform-test-security-group"
+  }
+}
+
+resource "aws_network_interface_sg_attachment" "sg_attachment" {
+  security_group_id    = aws_security_group.sg.id
+  network_interface_id = aws_instance.my-ec2.primary_network_interface_id
+}
